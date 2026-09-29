@@ -1,6 +1,13 @@
 from xml.dom.minidom import parse, Node
 
-BYTE_SIZE = {"Unsigned8": 1, "F_MessageTrailer4Byte": 4}
+# Sizes of the GSDML (PROFINET) simple data types. OctetString / VisibleString
+# carry their own Length attribute and are handled in add_size_io_data.
+BYTE_SIZE = {
+    "Integer8": 1, "Unsigned8": 1, "Integer16": 2, "Unsigned16": 2,
+    "Integer32": 4, "Unsigned32": 4, "Float32": 4, "Integer64": 8,
+    "Unsigned64": 8, "Float64": 8, "Unsigned8+Unsigned8": 2,
+    "F_MessageTrailer4Byte": 4, "F_MessageTrailer5Byte": 5,
+}
 
 
 class XMLIsoReference:
@@ -265,7 +272,11 @@ class XMLModuleItem:
             ),
         )
         self.allowed_in_slots = item_ref.getAttribute("AllowedInSlots")
-        self.used_in_slots = item_ref.getAttribute("UsedInSlots")
+        # A module pinned with FixedInSlots is as present as one placed with
+        # UsedInSlots -- the device refuses a connect that leaves it out.
+        self.used_in_slots = item_ref.getAttribute("UsedInSlots") or item_ref.getAttribute(
+            "FixedInSlots"
+        )
         self.parameters = self.calc_parameter_items(xml_submodule)
 
     def calc_parameter_items(self, submodule):
@@ -281,7 +292,11 @@ class XMLModuleItem:
     def add_size_io_data(self, data_items):
         item_size = 0
         for i in data_items:
-            item_size += BYTE_SIZE[i.getAttribute("DataType")]
+            data_type = i.getAttribute("DataType")
+            if data_type in ("OctetString", "VisibleString"):
+                item_size += int(i.getAttribute("Length"))
+            else:
+                item_size += BYTE_SIZE[data_type]
         return item_size
 
 

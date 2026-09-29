@@ -1,0 +1,12 @@
+<!-- Robot-side test tree for the loopback test: no arm, no vision -- one
+     nutrunner request through the PLC per cycle. Exercises start_cycle ->
+     /run_tree, the fire handshake, and cycle_done / servo_fault. -->
+<root BTCPP_format="4" main_tree_to_execute="Main">
+  <BehaviorTree ID="Main">
+    <Sequence>
+      <sleep msec="500"/>
+      <plcFireNutrunner target_torque="12.5" actual_torque="{actual}" torque_ok="{ok}"/>
+      <sleep msec="300"/>
+    </Sequence>
+  </BehaviorTree>
+</root>
