@@ -88,7 +88,8 @@ def main():
     ap.add_argument("--cycle-ms", type=int, default=32, help="bus cycle: 1..512, power of two")
     ap.add_argument("--watchdog", type=int, default=10, help="watchdog factor (cycles)")
     ap.add_argument("--layout", help="JSON overriding the default I/O offsets")
-    ap.add_argument("--fasten-s", type=float, default=1.5, help="simulated tightening time")
+    ap.add_argument("--fasten-s", type=float, default=2.0,
+                    help="simulated tightening time: seconds until the set torque is reached")
     ap.add_argument("--torque-fail", action="store_true", help="report every tightening as NOT OK")
     ap.add_argument("--cycles", type=int, help="run this many cycles non-interactively, then exit")
     ap.add_argument("--cycle-timeout", type=float, default=120.0)

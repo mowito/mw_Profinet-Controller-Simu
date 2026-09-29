@@ -18,7 +18,7 @@ from .layout import RobotStatus, set_bit, set_real
 
 
 class PlcProgram:
-    def __init__(self, layout, fasten_s=1.5, pulse_s=0.2, start_hold_s=5.0, log=print):
+    def __init__(self, layout, fasten_s=2.0, pulse_s=0.2, start_hold_s=5.0, log=print):
         self.layout = layout
         self.fasten_s = fasten_s
         self.pulse_s = pulse_s

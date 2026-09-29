@@ -68,7 +68,7 @@ Other options:
 |---|---|
 | `--cycle-ms` | bus cycle: a power of two from 1 to 512 |
 | `--watchdog` | watchdog factor, in cycles |
-| `--fasten-s` | simulated tightening time |
+| `--fasten-s` | simulated tightening time: seconds until the set torque is reached (default 2.0) |
 | `--layout file.json` | override I/O offsets, using the bridge's names without `_bit`/`_byte`, e.g. `{"stop_cycle": "0.6"}` |
 
 ## Files
